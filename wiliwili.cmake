@@ -5,7 +5,7 @@ project(wiliwili-uwp)
 
 set(VERSION_MAJOR "1")
 set(VERSION_MINOR "5")
-set(VERSION_REVISION "2")
+set(VERSION_REVISION "3")
 set(VERSION_BUILD "99")
 set(PROJECT_AUTHOR "xfangfang")
 set(PACKAGE_NAME cn.xfangfang.wiliwili)
