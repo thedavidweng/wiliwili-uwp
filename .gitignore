@@ -1,4 +1,5 @@
 .vscode
+*.vcxproj.user
 borealis
 build
 vcpkg_installed
