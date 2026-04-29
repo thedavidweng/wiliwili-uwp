@@ -18,8 +18,10 @@
 		<Logo>Assets\StoreLogo.png</Logo>
 	</Properties>
 	<Dependencies>
-		<TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0"
-			MaxVersionTested="10.0.0.0" />
+		<TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.17763.0"
+			MaxVersionTested="10.0.22621.0" />
+		<TargetDeviceFamily Name="Windows.Xbox" MinVersion="10.0.19041.0"
+			MaxVersionTested="10.0.22621.0" />
 	</Dependencies>
 	<Resources>
 		<Resource Language="x-generate" />
@@ -49,6 +51,7 @@
 		<Capability Name="internetClientServer" />
 		<Capability Name="privateNetworkClientServer" />
 		<uap3:Capability Name="backgroundMediaPlayback" />
+		<rescap:Capability Name="expandedResources" />
 		<rescap:Capability Name="hevcPlayback" />
 	</Capabilities>
 </Package>
