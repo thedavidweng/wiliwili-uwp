@@ -30,7 +30,7 @@ wiliwili 的功能与特性请参考 [上游项目](https://github.com/xfangfang
 
 UWP 版本由 [ikas-mc](https://github.com/ikas-mc) 开发，移植了 mpv 播放器至 UWP 平台，并完成了 borealis 框架的 WinRT 适配。项目最初托管于 [ikas-mc/wiliwili-uwp-poc](https://github.com/ikas-mc/wiliwili-uwp-poc)，后上架微软商店供 Xbox 用户下载（详见 [xfangfang/wiliwili#468](https://github.com/xfangfang/wiliwili/issues/468)）。
 
-2026 年 1 月，ikas-mc [宣布不再维护 UWP 版本](https://github.com/xfangfang/wiliwili/issues/468#issuecomment-3817713715)。此后由 [thedavidweng](https://github.com/thedavidweng) 接手继续维护，跟踪上游 wiliwili 的版本更新。
+2026 年 1 月，ikas-mc [表示将不再维护 UWP 版本](https://github.com/xfangfang/wiliwili/issues/468#issuecomment-3817713715)。本仓库目前跟踪上游 wiliwili 的版本更新。
 
 ### 与上游的关系
 
