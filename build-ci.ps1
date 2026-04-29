@@ -1,6 +1,68 @@
 
 $ErrorActionPreference = "Stop"
 $workDir = $PSScriptRoot
+$borealisRepo = "https://github.com/ikas-mc/borealis.git"
+$borealisRef = "winrt-dev"
+$borealisCommit = "789b230cb4e50ff2098ae872a6bfe3f1d835f25b"
+$wiliwiliRepo = "https://github.com/ikas-mc/wiliwili.git"
+$wiliwiliRef = "winrt-dev"
+$wiliwiliCommit = "ff43110e224c822f527f8c3dd0fb96eba9c3c827"
+
+function Ensure-GitCheckout {
+    param(
+        [Parameter(Mandatory = $true)][string]$Path,
+        [Parameter(Mandatory = $true)][string]$Repo,
+        [Parameter(Mandatory = $true)][string]$Ref,
+        [Parameter(Mandatory = $true)][string]$Commit
+    )
+
+    $newCheckout = $false
+
+    if (-not (Test-Path $Path)) {
+        Write-Host "Cloning $Path..."
+        & git clone --no-checkout $Repo $Path
+        if ($LASTEXITCODE -ne 0) { Write-Error "git clone failed for $Path"; exit 1 }
+        $newCheckout = $true
+    }
+
+    if (-not (Test-Path (Join-Path $Path ".git"))) {
+        Write-Error "$Path exists but is not a git checkout"
+        exit 1
+    }
+
+    Push-Location $Path
+    try {
+        if (-not $newCheckout) {
+            $changes = & git status --porcelain
+            if ($changes) {
+                Write-Error "$Path has local changes; clean it before building"
+                exit 1
+            }
+        }
+
+        $origin = (& git config --get remote.origin.url).Trim()
+        if ($origin -ne $Repo) {
+            & git remote set-url origin $Repo
+            if ($LASTEXITCODE -ne 0) { Write-Error "failed to set origin for $Path"; exit 1 }
+        }
+
+        Write-Host "Fetching $Path $Ref at $Commit..."
+        & git fetch --depth 1 origin $Commit
+        if ($LASTEXITCODE -ne 0) { Write-Error "git fetch failed for $Path"; exit 1 }
+
+        & git checkout --detach $Commit
+        if ($LASTEXITCODE -ne 0) { Write-Error "git checkout failed for $Path at $Commit"; exit 1 }
+
+        $actualCommit = (& git rev-parse HEAD).Trim()
+        if ($actualCommit -ne $Commit) {
+            Write-Error "$Path checkout mismatch: expected $Commit but got $actualCommit"
+            exit 1
+        }
+    }
+    finally {
+        Pop-Location
+    }
+}
 
 if (-not ($env:VCPKG_ROOT)) {
     $env:VCPKG_ROOT = $env:VCPKG_INSTALLATION_ROOT
@@ -31,16 +93,12 @@ if (-not (Test-Path '.\libs\mpv\lib\mpv.lib')) {
     exit 1
 }
 
-if (-not (Test-Path "./borealis")) {
-    Write-Host "Cloning borealis..."
-    & git clone --depth 1 https://github.com/xfangfang/borealis.git borealis
-}
-if (-not (Test-Path "./wiliwili")) {
-    Write-Host "Cloning wiliwili v1.6.0..."
-    & git clone --depth 1 -b v1.6.0 https://github.com/xfangfang/wiliwili.git wiliwili
-    Set-Location wiliwili
-    & git submodule update --init --depth 1 -- "library/libpdr" "library/pystring" "library/mongoose"
-}
+Ensure-GitCheckout -Path "borealis" -Repo $borealisRepo -Ref $borealisRef -Commit $borealisCommit
+Ensure-GitCheckout -Path "wiliwili" -Repo $wiliwiliRepo -Ref $wiliwiliRef -Commit $wiliwiliCommit
+
+Set-Location wiliwili
+& git submodule update --init --depth 1 -- "library/libpdr" "library/pystring" "library/mongoose"
+if ($LASTEXITCODE -ne 0) { Write-Error "wiliwili submodule update failed"; exit 1 }
 
 Set-Location $workDir
 

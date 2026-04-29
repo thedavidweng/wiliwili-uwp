@@ -34,7 +34,7 @@ UWP 版本由 [ikas-mc](https://github.com/ikas-mc) 开发，移植了 mpv 播�
 
 ### 与上游的关系
 
-本项目不修改 wiliwili 的核心代码。构建时从上游仓库拉取 wiliwili 源码与依赖，仅通过 CMake 配置与条件编译适配 UWP 平台。
+本项目不直接提交 wiliwili 与 borealis 源码。构建时拉取已固定提交的 UWP/WinRT 适配分支，并通过本仓库的 CMake 配置生成 UWP 包。
 
 <br>
 
@@ -78,7 +78,7 @@ wiliwili-uwp/
 ├── CMakeLists.txt          # 顶层 CMake（UWP 工具链配置）
 ├── wiliwili.cmake          # wiliwili 构建配置（版本、源文件、编译选项）
 ├── borealis.cmake          # borealis 构建配置（D3D11、WinRT 平台）
-├── build-ci.ps1            # 构建脚本（拉取依赖 + 编译）
+├── build-ci.ps1            # 构建脚本（拉取固定提交的依赖 + 编译）
 ├── wiliwili/               # wiliwili 源码（gitignored，构建时自动拉取）
 ├── borealis/               # borealis 框架（gitignored，构建时自动拉取）
 ├── libs/mpv/               # mpv UWP 预编译库

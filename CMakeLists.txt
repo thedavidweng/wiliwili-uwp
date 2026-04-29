@@ -9,14 +9,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED YES)
 #CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION
 #CMAKE_VS_PLATFORM_NAME
 
-project(wiliwili-uwp-poc)
+project(wiliwili-uwp)
 
 #https://learn.microsoft.com/zh-cn/cpp/build/reference/execution-charset-set-execution-character-set?view=msvc-170
 add_compile_options(/utf-8)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 include(borealis.cmake)
-
-#include(borealis-demo.cmake)
 
 include(wiliwili.cmake)

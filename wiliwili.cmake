@@ -82,25 +82,14 @@ add_executable(${PROJECT_NAME} WIN32 ${MAIN_SRC} ${PDR_SRC} ${PROJECT_RESOURCES2
 list(APPEND HEADER_INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/libs/mpv/include)
 target_link_libraries(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/libs/mpv/lib/mpv.lib)
 
-#find_package(cppwinrt CONFIG REQUIRED)
-#target_link_libraries(${PROJECT_NAME} Microsoft::CppWinRT)
-
 find_package(lunasvg CONFIG REQUIRED)
 target_link_libraries(${PROJECT_NAME} lunasvg::lunasvg)
 
-# find_package(unofficial-mongoose CONFIG REQUIRED)
-# target_link_libraries(${PROJECT_NAME} unofficial::mongoose::mongoose)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/wiliwili/library/mongoose EXCLUDE_FROM_ALL)
 target_link_libraries(${PROJECT_NAME} mongoose)
 
 find_package(unofficial-nayuki-qr-code-generator CONFIG REQUIRED)
 target_link_libraries(${PROJECT_NAME} unofficial::nayuki-qr-code-generator::nayuki-qr-code-generator)
-
-# this is heuristically generated, and may not be correct
-# find_package(pystring CONFIG REQUIRED)
-# target_link_libraries(${PROJECT_NAME} pystring::pystring)
-# find_path(PYSTRING_INCLUDE_DIR pystring.h PATH_SUFFIXES pystring REQUIRED)
-# list(APPEND HEADER_INCLUDES ${PYSTRING_INCLUDE_DIR})
 
 find_package(OpenSSL REQUIRED)
 target_link_libraries(${PROJECT_NAME} OpenSSL::SSL OpenSSL::Crypto)
@@ -114,19 +103,8 @@ target_link_libraries(${PROJECT_NAME}  ZLIB::ZLIB)
 find_package(cpr CONFIG REQUIRED)
 target_link_libraries(${PROJECT_NAME} cpr::cpr)
 
-#set(CPR_USE_SYSTEM_CURL ON)
-#set(CPR_FORCE_WINSSL_BACKEND ON)
-#add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/wiliwili/library/cpr EXCLUDE_FROM_ALL)
-#target_link_libraries(${PROJECT_NAME} cpr::cpr)
-
-#add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/wiliwili/library/clip EXCLUDE_FROM_ALL)
-#target_link_libraries(${PROJECT_NAME} clip)
-
 target_link_libraries(${PROJECT_NAME} borealis)
 
 target_include_directories(${PROJECT_NAME} PUBLIC  ${HEADER_INCLUDES} )
 target_compile_options(${PROJECT_NAME} PRIVATE -DBRLS_RESOURCES_DIR="." ${APP_PLATFORM_OPTION})
-#target_compile_definitions(${PROJECT_NAME} PRIVATE  BOREALIS_USE_STD_THREAD __WINRT__ BOREALIS_USE_D3D11 __SDL2__ __PLAYER_WINRT__ NOMINMAX _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS _WINSOCK_DEPRECATED_NO_WARNINGS _CRT_SECURE_NO_WARNINGS _CRT_NONSTDC_NO_WARNINGS)
-#target_compile_definitions(${PROJECT_NAME} PRIVATE  BOREALIS_USE_STD_THREAD __WINRT__ BOREALIS_USE_D3D11 __SDL2__  MPV_SW_RENDER NOMINMAX _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS _WINSOCK_DEPRECATED_NO_WARNINGS _CRT_SECURE_NO_WARNINGS _CRT_NONSTDC_NO_WARNINGS)
-#target_compile_definitions(${PROJECT_NAME} PRIVATE  BOREALIS_USE_STD_THREAD __WINRT__ BOREALIS_USE_D3D11 __SDL2__  MPV_SW_RENDER NOMINMAX _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS _WINSOCK_DEPRECATED_NO_WARNINGS _CRT_SECURE_NO_WARNINGS _CRT_NONSTDC_NO_WARNINGS)
 target_compile_definitions(${PROJECT_NAME} PRIVATE NO_GA BOREALIS_USE_STD_THREAD __WINRT__ __WINRT_NEW__ BOREALIS_USE_D3D11  NOMINMAX _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS _WINSOCK_DEPRECATED_NO_WARNINGS _CRT_SECURE_NO_WARNINGS _CRT_NONSTDC_NO_WARNINGS)

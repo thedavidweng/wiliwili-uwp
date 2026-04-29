@@ -15,6 +15,10 @@ if (NOT BRLS_RESOURCES_DIR)
 endif ()
 set(BRLS_PLATFORM_RESOURCES_PATH "\"${BRLS_RESOURCES_DIR}/resources/\"")
 
+if (NOT EXISTS "${BOREALIS_PATH}/lib/platforms/winrt")
+    message(FATAL_ERROR "Expected borealis WinRT platform sources. Run build-ci.ps1 to fetch the pinned UWP checkout.")
+endif ()
+
 list(APPEND BOREALIS_INCLUDE ${BOREALIS_PATH}/include/compat )
 list(APPEND BOREALIS_SOURCE ${BOREALIS_PATH}/lib/platforms/winrt)
 list(APPEND BOREALIS_SRC ${BOREALIS_PATH}/lib/platforms/driver/d3d11.cpp)
@@ -68,14 +72,9 @@ target_link_libraries(borealis  fmt::fmt)
 find_package(tinyxml2 CONFIG REQUIRED)
 target_link_libraries(borealis  tinyxml2::tinyxml2)
 
-# tweeny ;vcpkg has error
-#find_package(Tweeny CONFIG REQUIRED)
+# vcpkg's tweeny package is not compatible with this UWP build.
 add_subdirectory(${BOREALIS_PATH}/lib/extern/tweeny EXCLUDE_FROM_ALL)
 target_link_libraries(borealis  tweeny)
-
-# yoga
-#find_package(yoga CONFIG REQUIRED)
-#target_link_libraries(borealis  yoga::yogacore)
 
 add_subdirectory(${BOREALIS_PATH}/lib/extern/yoga/yoga EXCLUDE_FROM_ALL)
 target_compile_options(yogacore PRIVATE -fvisibility=default)
