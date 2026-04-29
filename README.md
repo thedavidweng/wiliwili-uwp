@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="wiliwili/resources/svg/cn.xfangfang.wiliwili.svg" alt="logo" height="128" width="128"/>
+    <img src="https://raw.githubusercontent.com/xfangfang/wiliwili/refs/heads/yoga/resources/svg/cn.xfangfang.wiliwili.svg" alt="logo" height="128" width="128"/>
 </p>
 <p align="center">
   <a href="https://github.com/xfangfang/wiliwili">wiliwili</a> 的 UWP 移植版本，适用于 Xbox 主机与 Windows 10+
@@ -14,7 +14,7 @@
 
 - - -
 
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/thedavidweng/wiliwili-uwp)](https://github.com/thedavidweng/wiliwili-uwp/releases)
+[![build](https://github.com/thedavidweng/wiliwili-uwp/actions/workflows/build-x64.yml/badge.svg)](https://github.com/thedavidweng/wiliwili-uwp/actions/workflows/build-x64.yml)
 ![Xbox](https://img.shields.io/badge/-Xbox-107C10?style=flat&logo=Xbox)
 ![Windows](https://img.shields.io/badge/-Windows%2010+-0078D6?style=flat&logo=Windows)
 
@@ -48,7 +48,7 @@ UWP 版本由 [ikas-mc](https://github.com/ikas-mc) 开发，移植了 mpv 播�
 
 ### Windows
 
-从 [Releases](https://github.com/thedavidweng/wiliwili-uwp/releases) 页面下载 `.appxbundle` 文件安装。
+从 [GitHub Actions](https://github.com/thedavidweng/wiliwili-uwp/actions/workflows/build-x64.yml) 下载最新构建产物（需登录 GitHub）。
 
 <br>
 
@@ -62,24 +62,13 @@ UWP 版本由 [ikas-mc](https://github.com/ikas-mc) 开发，移植了 mpv 播�
 
 ### 构建
 
-```bash
+```powershell
 # 克隆本仓库
 git clone https://github.com/thedavidweng/wiliwili-uwp.git
 cd wiliwili-uwp
 
-# 拉取 wiliwili 源码与依赖
-git clone --depth 1 -b v1.6.0 https://github.com/xfangfang/wiliwili.git wiliwili
-cd wiliwili && git submodule update --init --depth 1 library/libpdr library/pystring library/mongoose && cd ..
-
-# 拉取 borealis
-git clone --depth 1 https://github.com/xfangfang/borealis.git borealis
-
-# 下载 mpv UWP 运行时（如尚未存在）
-# 参考 build-ci.ps1 中的下载链接与校验值
-
-# 构建
-cmake --preset=uwp
-msbuild build\wiliwili-uwp.vcxproj /m /p:configuration="release" /p:platform="x64"
+# 运行构建脚本（自动拉取依赖并编译）
+.\build-ci.ps1
 ```
 
 ### 项目结构
@@ -89,8 +78,9 @@ wiliwili-uwp/
 ├── CMakeLists.txt          # 顶层 CMake（UWP 工具链配置）
 ├── wiliwili.cmake          # wiliwili 构建配置（版本、源文件、编译选项）
 ├── borealis.cmake          # borealis 构建配置（D3D11、WinRT 平台）
-├── wiliwili/               # wiliwili 源码（gitignored，需手动拉取）
-├── borealis/               # borealis 框架（gitignored，需手动拉取）
+├── build-ci.ps1            # 构建脚本（拉取依赖 + 编译）
+├── wiliwili/               # wiliwili 源码（gitignored，构建时自动拉取）
+├── borealis/               # borealis 框架（gitignored，构建时自动拉取）
 ├── libs/mpv/               # mpv UWP 预编译库
 └── wiliwili-uwp/           # UWP 应用清单与资源
 ```

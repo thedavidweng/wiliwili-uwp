@@ -28,12 +28,12 @@ if (-not (Test-Path '.\libs\mpv\lib\mpv.lib')) {
 }
 
 if (-not (Test-Path "./borealis")) {
-    & git clone --depth 1 -b winrt-dev https://github.com/ikas-mc/borealis
+    & git clone --depth 1 https://github.com/xfangfang/borealis.git borealis
 }
 if (-not (Test-Path "./wiliwili")) {
-    & git clone --depth 1 -b winrt-dev https://github.com/ikas-mc/wiliwili
+    & git clone --depth 1 -b v1.6.0 https://github.com/xfangfang/wiliwili.git wiliwili
     Set-Location wiliwili
-    & git submodule update  --init -- "library/libpdr" "library/pystring" "library/mongoose"
+    & git submodule update --init --depth 1 -- "library/libpdr" "library/pystring" "library/mongoose"
 }
 
 Set-Location $workDir
